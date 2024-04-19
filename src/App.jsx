@@ -56,38 +56,32 @@ const returnClarifaiRequestOptions = (imageUrl) => {
 function App() {
   const [input, setInput] = useState("");
   const [imgUrl, setImgUrl] = useState("");
-  const [box, setBox] = useState({});
+  const [box, setBox] = useState([]);
 
   const calculateFaceLocation = (data) => {
-    const regions = data.outputs[0].data.regions;
+    const regions = data.outputs[0].data.regions || [];
     const faceLocations = regions.map((region)=> {
       const boundingBox = region.region_info.bounding_box;
-      console.log('regions calculateface', regions);
       const image = document.getElementById('inputImage');
-
+{/**
       if (!image) {
         console.error('Image element with ID "inputImage" not found.');
         return null; 
       }
-
+ */}
       const width = Number(image.width);
       const height = Number(image.height);
-    
-      //console.log(width, height);
-      return {
-        leftCol: boundingBox.left_col * width,
-        topRow: boundingBox.top_row * height,
-        rightCol: width - (boundingBox.right_col * width),
-        bottomRow: height - (boundingBox.bottom_row * height)
-      };
+      const leftCol = boundingBox.left_col * width || '0px';
+      const topRow= boundingBox.top_row * height || '0px';
+      const rightCol= width - (boundingBox.right_col * width) || '0px';
+      const bottomRow= height - (boundingBox.bottom_row * height) || '0px';
+      return { leftCol, topRow, rightCol, bottomRow };
     });
-    console.log('faceLocations lo que devuelve', faceLocations);
     return faceLocations;
   }
 
   const displayBox = (box) =>{
-    setBox({box});
-    return console.log('box en display', box);
+    setBox(box);
   }
   const onInputChange = (e) => {
     const newInput = e.target.value;
@@ -113,9 +107,6 @@ const onSubmit = async () => {
   }
 };
 */}
-
-
-
   const onSubmit = () => {
     setImgUrl(input)
     fetch(
@@ -130,7 +121,6 @@ const onSubmit = async () => {
       .catch((error) => console.log("error", error));
   };
 
-  
   return (
     <div>
       <ParticlesBg num={12} type="circle" bg={true} />
