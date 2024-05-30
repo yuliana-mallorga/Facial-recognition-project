@@ -2,8 +2,6 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import axios from 'axios'
 function Signin({ onRouteChange }) {
-  
-  
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
   
@@ -22,7 +20,7 @@ function Signin({ onRouteChange }) {
     try {
       const r = await axios.post('http://localhost:4000/signin', {
         headers: {
-          'Accept': 'application/json'
+          'Content-Type': 'application/json'
         },
         body:{
           email: signInEmail,
@@ -34,10 +32,10 @@ function Signin({ onRouteChange }) {
       if(res.success){
         onRouteChange("home")
       }else{
-        console.log('Usuario o contrase;a incorrecto.');
+        console.log('Incorrect user or password.');
       }
     } catch (error) {
-      console.log('Usuario o contrase;a incorrecto.');
+      console.log('Incorrect user or password');
     }
   }
   
