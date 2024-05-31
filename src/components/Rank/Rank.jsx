@@ -1,14 +1,18 @@
-function Runk() {
+import PropTypes from "prop-types";
+function Runk({ user }) {
     return(
         <div>
             <div className="gold f3 tc">
-                {'Andres, your current rank is...'}
+                {`${user.name}, your current rank is...`}
             </div>
             <div className="gold f1 tc">
-                {'#5'}
+                {`# ${user.entries}`}
             </div>
         </div>
     )
 }
 
+Runk.propTypes = {
+    user: PropTypes.object
+  };
 export default Runk;

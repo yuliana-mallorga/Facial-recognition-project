@@ -11,8 +11,8 @@ function Navigation({ onRouteChange, isSignedIn }) {
             }}
           >
             <p
-              onClick={() => onRouteChange("signin")}
-              className="f3 link underline pa3 pointer"
+              onClick={() => onRouteChange("signin")} 
+              className="f3 link underline pa3 pointer" 
             >
               Sign Out
             </p>
@@ -43,8 +43,6 @@ function Navigation({ onRouteChange, isSignedIn }) {
           </nav>
           );
      }
-      
-      
 }
      
 Navigation.propTypes = {

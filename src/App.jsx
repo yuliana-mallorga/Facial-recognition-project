@@ -57,14 +57,13 @@ function App() {
   
 
   const loadUser = (data) => {
-    user; // to fix
-    setUser({user: {
+    setUser({
       id: data.id,
       name: data.name,
       email: data.email,
       entries: data.entries,
       joined: data.joined
-    }})
+    })
   }
   const calculateFaceLocation = (data) => {
     const regions = data.outputs[0].data.regions || [];
@@ -109,6 +108,8 @@ function App() {
     setRoute(route)
     if (route === 'home') {
       setIsSignedIn(true)
+    } else{
+      setIsSignedIn(false)
     }
   }
   return (
@@ -118,13 +119,13 @@ function App() {
 { route === 'home' 
   ? <div>
       <Logo />
-      <Rank />
+      <Rank user={user}/>
       <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
       <FaceRecognition box={box} imgUrl={imgUrl} />
     </div>
     : (
       route === 'signin'
-      ? <Signin onRouteChange={onRouteChange}/>
+      ? <Signin onRouteChange={onRouteChange} loadUser={loadUser}/>
       : <Register onRouteChange={onRouteChange} loadUser={loadUser}/>
     )
 }

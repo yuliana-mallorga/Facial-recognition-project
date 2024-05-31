@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import axios from 'axios'
-function Signin({ onRouteChange }) {
+function Signin({ onRouteChange, loadUser }) {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
   
@@ -18,24 +18,26 @@ function Signin({ onRouteChange }) {
     e.preventDefault()
     
     try {
-      const r = await axios.post('http://localhost:4000/signin', {
+      const r = await axios({
+        method: 'post',
+        url:'http://localhost:4000/signin', 
         headers: {
           'Content-Type': 'application/json'
         },
-        body:{
+        data:{
           email: signInEmail,
           password: signInPassword
         }
       })
-      const res = r.data
-      
-      if(res.success){
+      const user = r.data
+      if(user.id){
+        loadUser(user)
         onRouteChange("home")
       }else{
         console.log('Incorrect user or password.');
       }
     } catch (error) {
-      console.log('Incorrect user or password');
+      console.log('Error.');
     }
   }
   
@@ -96,5 +98,6 @@ function Signin({ onRouteChange }) {
 
 Signin.propTypes = {
   onRouteChange: PropTypes.func.isRequired,
+  loadUser: PropTypes.func.isRequired
 };
 export default Signin;

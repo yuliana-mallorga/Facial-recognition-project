@@ -22,11 +22,13 @@ function Register({ onRouteChange, loadUser }) {
     e.preventDefault()
     
     try {
-      const res= await axios.post('http://localhost:4000/register', {
+      const res= await axios({
+        method: 'post',
+        url:'http://localhost:4000/register', 
         headers: {
           'Content-Type': 'application/json'
         },
-        body:{
+        data:{
           email: email,
           password: password,
           name: name,
