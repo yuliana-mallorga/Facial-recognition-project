@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 function Rank({ user }) {
-
     return(
         <div>
             <div className="gold f3 tc">

@@ -31,15 +31,15 @@ const returnClarifaiRequestOptions = (imageUrl) => {
     ],
   });
 
-  const requestOptions = {
+  return {
+    url: "https://api.clarifai.com/v2/models/face-detection/outputs",
     method: "POST",
     headers: {
       Accept: "application/json",
       Authorization: "Key " + PAT,
     },
-    body: raw,
+    data: raw,
   };
-  return requestOptions;
 };
 
 function App() {
@@ -62,7 +62,7 @@ function App() {
       id: data.id,
       name: data.name,
       email: data.email,
-      entries: data.entries,
+      entries: Number(data.entries),
       joined: data.joined
     })
   }
@@ -92,12 +92,12 @@ function App() {
 
   const onSubmit = async () => {
     setImgUrl(input);
+
+    const config = returnClarifaiRequestOptions(input)
+    
     try {
-      const response = await fetch(
-        "https://api.clarifai.com/v2/models/" + "face-detection" + "/outputs",
-        returnClarifaiRequestOptions(input)
-      );
-      const result = await response.json();
+      const response = await axios(config);
+      const result = response.data;
       if(result){
         const res = await axios({
           method: 'put',
@@ -109,7 +109,11 @@ function App() {
             id: user.id 
           }
         })
-        user.entries = res.data.entries
+
+        loadUser({
+          ...user,
+          entries: res.data
+        })
       }
       const box = calculateFaceLocation(result);
       displayBox(box);
