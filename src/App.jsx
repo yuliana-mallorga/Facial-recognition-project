@@ -7,6 +7,7 @@ import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition"
 import Register from "./components/Register/Register";
 import ParticlesBg from "particles-bg";
+import axios from 'axios'
 
 const returnClarifaiRequestOptions = (imageUrl) => {
   const PAT = "99831ae376d34e6789ca5b2b6c158cfe";
@@ -97,7 +98,19 @@ function App() {
         returnClarifaiRequestOptions(input)
       );
       const result = await response.json();
-      console.log("hi", result);
+      if(result){
+        const res = await axios({
+          method: 'put',
+          url:'http://localhost:4000/image', 
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data:{
+            id: user.id 
+          }
+        })
+        user.entries = res.data.entries
+      }
       const box = calculateFaceLocation(result);
       displayBox(box);
     } catch (error) {
