@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
-function Runk({ user }) {
+function Rank({ user }) {
+
     return(
         <div>
             <div className="gold f3 tc">
-                {`${user.name}, your current rank is...`}
+                {`${user.name}, your current entry count is...`}
             </div>
             <div className="gold f1 tc">
                 {`# ${user.entries}`}
@@ -12,7 +13,10 @@ function Runk({ user }) {
     )
 }
 
-Runk.propTypes = {
-    user: PropTypes.object
+Rank.propTypes = {
+    user: PropTypes.shape({
+     name: PropTypes.string,
+     entries: PropTypes.number
+    })
   };
-export default Runk;
+export default Rank;
