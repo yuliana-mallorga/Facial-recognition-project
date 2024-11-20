@@ -4,6 +4,7 @@ import axios from 'axios'
 function Signin({ onRouteChange, loadUser }) {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
+  const [message, setMessage] = useState("");
   
   const onEmailChange = (event)=> {
     return setSignInEmail(event.target.value)
@@ -20,7 +21,7 @@ function Signin({ onRouteChange, loadUser }) {
     try {
       const r = await axios({
         method: 'post',
-        url:'http://localhost:4000/signin', 
+        url:`${import.meta.env.VITE_DATABASE_URL}/signin`, 
         headers: {
           'Content-Type': 'application/json'
         },
@@ -29,15 +30,19 @@ function Signin({ onRouteChange, loadUser }) {
           password: signInPassword
         }
       })
+     
       const user = r.data
+      
       if(user.id){
         loadUser(user)
         onRouteChange("home")
       }else{
-        console.log('Incorrect user or password.');
+        console.log('Incorrect user or password');
       }
-    } catch (error) {
-      console.log('Error.');
+    } catch (err) {
+      console.log('Error');
+      setMessage(err.response.data)
+      
     }
   }
   
@@ -80,6 +85,9 @@ function Signin({ onRouteChange, loadUser }) {
                 type="submit"
                 value="Sign in"
               />
+            </div>
+            <div className="mt3 flex justify-center">
+              <p className="fw8 red tracked"> {message} </p>
             </div>
             <div className="lh-copy mt3 flex justify-center">
               <p

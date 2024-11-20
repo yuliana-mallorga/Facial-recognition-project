@@ -7,11 +7,11 @@ import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition"
 import Register from "./components/Register/Register";
 import ParticlesBg from "particles-bg";
-import axios from 'axios'
+import axios from 'axios';
 
 const returnClarifaiRequestOptions = (imageUrl) => {
-  const PAT = "99831ae376d34e6789ca5b2b6c158cfe";
-  const USER_ID = "clayuli2024";
+  const PAT = import.meta.env.VITE_REACT_APP_API_KEY;
+  const USER_ID = import.meta.env.VITE_USER_ID;
   const APP_ID = "Project-face-detection";
   const IMAGE_URL = imageUrl;
 
@@ -94,14 +94,15 @@ function App() {
     setImgUrl(input);
 
     const config = returnClarifaiRequestOptions(input)
-    
+  
+
     try {
       const response = await axios(config);
       const result = response.data;
       if(result){
         const res = await axios({
           method: 'put',
-          url:'http://localhost:4000/image', 
+          url:`${import.meta.env.VITE_DATABASE_URL}/image`, 
           headers: {
             'Content-Type': 'application/json'
           },

@@ -24,7 +24,7 @@ function Register({ onRouteChange, loadUser }) {
     try {
       const res= await axios({
         method: 'post',
-        url:'http://localhost:4000/register', 
+        url:`${import.meta.env.VITE_DATABASE_URL}/register`, 
         headers: {
           'Content-Type': 'application/json'
         },
