@@ -20,8 +20,16 @@ function Register({ onRouteChange, loadUser }) {
     return setPassword(event.target.value);
   };
 
+  const validEmail = () => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email.trim());
+  }
+
   const onSubmitRegister = async (e) => {
     e.preventDefault()
+    
+    if(!validEmail()) return fireAlert("Oops...", "error", "Invalid email format!")
+    if(!email.trim() || !password.trim() || !name.trim()) return fireAlert("Oops...", "error", "Complete all required fields!")
     
     try {
       const res = await axios({
@@ -31,18 +39,14 @@ function Register({ onRouteChange, loadUser }) {
           'Content-Type': 'application/json'
         },
         data:{
-          email: email,
-          password: password,
-          name: name,
+          email,
+          password,
+          name
         }
       })
 
-      if (!res.data) {
-        return fireAlert("Oops...", "error", "Complete all fields!")
-      }
-      
-      loadUser(res.data);
-      onRouteChange("home");
+      loadUser(res.data)
+      onRouteChange("home")
       fireAlert("Your registration was successful!", "success")
     } catch (error) {
       fireAlert("Did not register!", "error")
