@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import axios from 'axios'
+import axios from 'axios';
+import Swal from 'sweetalert2';
+
 
 function Register({ onRouteChange, loadUser }) {
   const [email, setEmail] = useState("");
@@ -20,7 +22,6 @@ function Register({ onRouteChange, loadUser }) {
 
   const onSubmitRegister = async (e) => {
     e.preventDefault()
-    
     try {
       const res= await axios({
         method: 'post',
@@ -35,16 +36,30 @@ function Register({ onRouteChange, loadUser }) {
         }
       })
         if(res.data){  
-          loadUser(res.data)
-          onRouteChange("home")
+          loadUser(res.data);
+          onRouteChange("home");
+          Swal.fire({
+            title: "Your registration was successful!",
+            icon: "success"
+          });
         }else{
-          console.log('The user was not registered');
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Complete all fields!"
+          });
         }
       
     } catch (error) {
-      console.log('Did not register');
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Did not register! This user probably exists"
+      });
+     
     }
-  }
+  };
+  
   return (
     <article className="br3 pa4 ba dark-gray b--black-10 mv4 w-100 w-50-m mw7 shadow-5 center">
       <main className="pa4 black-80">

@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import axios from 'axios'
+import axios from 'axios';
+import Swal from 'sweetalert2';
+
 function Signin({ onRouteChange, loadUser }) {
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
-  const [message, setMessage] = useState("");
   
   const onEmailChange = (event)=> {
     return setSignInEmail(event.target.value)
@@ -36,13 +37,13 @@ function Signin({ onRouteChange, loadUser }) {
       if(user.id){
         loadUser(user)
         onRouteChange("home")
-      }else{
-        console.log('Incorrect user or password');
       }
     } catch (err) {
-      console.log('Error');
-      setMessage(err.response.data)
-      
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${err.response.data}`,
+      });
     }
   }
   
@@ -85,9 +86,6 @@ function Signin({ onRouteChange, loadUser }) {
                 type="submit"
                 value="Sign in"
               />
-            </div>
-            <div className="mt3 flex justify-center">
-              <p className="fw8 red tracked"> {message} </p>
             </div>
             <div className="lh-copy mt3 flex justify-center">
               <p

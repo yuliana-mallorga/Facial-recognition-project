@@ -8,6 +8,8 @@ import FaceRecognition from "./components/FaceRecognition/FaceRecognition"
 import Register from "./components/Register/Register";
 import ParticlesBg from "particles-bg";
 import axios from 'axios';
+import Swal from 'sweetalert2';
+
 
 const returnClarifaiRequestOptions = (imageUrl) => {
   const PAT = import.meta.env.VITE_REACT_APP_API_KEY;
@@ -95,10 +97,11 @@ function App() {
 
     const config = returnClarifaiRequestOptions(input)
   
-
     try {
       const response = await axios(config);
       const result = response.data;
+      console.log('antes del if en onsubmit', result);
+      
       if(result){
         const res = await axios({
           method: 'put',
@@ -110,15 +113,21 @@ function App() {
             id: user.id 
           }
         })
-
         loadUser({
           ...user,
           entries: res.data
-        })
+        });
       }
+      console.log(result)
       const box = calculateFaceLocation(result);
       displayBox(box);
+      
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
       console.log("error", error);
     }
   };
@@ -135,7 +144,7 @@ function App() {
       <ParticlesBg num={12} type="circle" bg={true} />
       <Navigation onRouteChange={onRouteChange} isSignedIn={isSignedIn}/>
 { route === 'home' 
-  ? <div>
+  ?  <div>
       <Logo />
       <Rank user={user}/>
       <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
