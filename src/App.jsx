@@ -100,7 +100,6 @@ function App() {
     try {
       const response = await axios(config);
       const result = response.data;
-      console.log('antes del if en onsubmit', result);
       
       if(result){
         const res = await axios({
@@ -121,7 +120,6 @@ function App() {
       console.log(result)
       const box = calculateFaceLocation(result);
       displayBox(box);
-      
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -136,7 +134,17 @@ function App() {
     if (route === 'home') {
       setIsSignedIn(true)
     } else{
-      setIsSignedIn(false)
+      setIsSignedIn(false);
+      setImgUrl("");
+      setInput("")
+      setBox([]);
+      setUser({
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      })
     }
   }
   return (

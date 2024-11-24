@@ -25,7 +25,7 @@ function ImageLinkForm({ onInputChange, onSubmit }) {
 
 ImageLinkForm.propTypes = {
   onInputChange: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default ImageLinkForm;
