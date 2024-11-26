@@ -11,7 +11,7 @@ function Navigation({ onRouteChange, isSignedIn }) {
             }}
           >
             <p
-              onClick={() => onRouteChange("signin")} 
+              onClick={() => onRouteChange("signout")} 
               className="f3 link underline pa3 pointer" 
             >
               Sign Out

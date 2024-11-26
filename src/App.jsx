@@ -117,8 +117,9 @@ function App() {
           entries: res.data
         });
       }
-      console.log(result)
+
       const box = calculateFaceLocation(result);
+
       displayBox(box);
     } catch (error) {
       Swal.fire({
@@ -126,17 +127,14 @@ function App() {
         title: "Oops...",
         text: "Something went wrong!",
       });
-      console.log("error", error);
     }
   };
   const onRouteChange = (route)=>{
     setRoute(route)
-    if (route === 'home') {
-      setIsSignedIn(true)
-    } else{
+    if (route === 'signout') {
       setIsSignedIn(false);
       setImgUrl("");
-      setInput("")
+      setInput("");
       setBox([]);
       setUser({
         id: '',
@@ -144,9 +142,21 @@ function App() {
         email: '',
         entries: 0,
         joined: ''
-      })
+      });
+      setRoute("signin");
+      console.log("signin false?", isSignedIn);
+    } else if (route === 'home') {
+      setIsSignedIn(true);
+      console.log("signin true?", isSignedIn);
+    } else{
+      setRoute(route);
+      setIsSignedIn(false);
+      console.log("signin false?", isSignedIn);
+
     }
   }
+
+  
   return (
     <div>
       <ParticlesBg num={12} type="circle" bg={true} />
