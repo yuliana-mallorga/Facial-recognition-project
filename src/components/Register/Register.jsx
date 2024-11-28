@@ -25,12 +25,18 @@ function Register({ onRouteChange, loadUser }) {
     return re.test(email.trim());
   }
 
+  const validPassword = () => {
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{6,12}$/;
+    return pattern.test(password.trim())  
+  }
+
   const onSubmitRegister = async (e) => {
     e.preventDefault()
     
-    if(!validEmail()) return fireAlert("Oops...", "error", "Invalid email format!")
-    if(!email.trim() || !password.trim() || !name.trim()) return fireAlert("Oops...", "error", "Complete all required fields!")
-    
+    if(!email.trim() || !password.trim() || !name.trim()) return fireAlert("Oops...", "error", "Complete all required fields!");
+    if(!validEmail()) return fireAlert("Oops...", "error", "Invalid email format!");
+    if(!validPassword()) return fireAlert("Oops...", "error", "Invalid password format. You must have from 6 to 12 caracters and, add a mix of upper and lower case letters symbols and numbers.");
+  
     try {
       const res = await axios({
         method: 'post',
@@ -49,7 +55,7 @@ function Register({ onRouteChange, loadUser }) {
       onRouteChange("home")
       fireAlert("Your registration was successful!", "success")
     } catch (error) {
-      fireAlert("Did not register!", "error")
+      fireAlert("Did not register!", "error", error.response.data)
     }
   };
   

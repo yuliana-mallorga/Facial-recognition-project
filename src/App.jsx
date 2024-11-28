@@ -100,7 +100,7 @@ function App() {
     try {
       const response = await axios(config);
       const result = response.data;
-      
+
       if(result){
         const res = await axios({
           method: 'put',
@@ -125,13 +125,13 @@ function App() {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Something went wrong!",
+        text: "Something went wrong!"
       });
     }
   };
   const onRouteChange = (route)=>{
     setRoute(route)
-    if (route === 'signout') {
+    if (route === "signout") {
       setIsSignedIn(false);
       setImgUrl("");
       setInput("");
@@ -144,14 +144,14 @@ function App() {
         joined: ''
       });
       setRoute("signin");
-      console.log("signin false?", isSignedIn);
+      console.log("signout false?", isSignedIn, route);
     } else if (route === 'home') {
       setIsSignedIn(true);
-      console.log("signin true?", isSignedIn);
+      console.log("signin true?", isSignedIn, route);
     } else{
       setRoute(route);
       setIsSignedIn(false);
-      console.log("signin false?", isSignedIn);
+      console.log("register false?", isSignedIn, route);
 
     }
   }

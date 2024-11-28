@@ -39,14 +39,18 @@ function Signin({ onRouteChange, loadUser }) {
         onRouteChange("home")
       }
     } catch (err) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `${err.response.data}`,
-      });
+      fireAlert("Did not register!", "error", err.response.data)
     }
   }
-  
+
+  const fireAlert = (title, icon, text = null) => {
+    Swal.fire({
+      title,
+      icon,
+      text
+    });
+  } // esta funcion es usada aqui y en register, se puede hacer un servicio o utilidad
+
   return (
     <article className="br3 pa4 ba dark-gray b--black-10 mv5 w-100 w-50-m mw7 shadow-5 center">
       <main className="pa4 black-80">
